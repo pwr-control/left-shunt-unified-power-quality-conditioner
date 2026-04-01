@@ -1,55 +1,126 @@
-# Prerequisites
-*.d
+# ============================================================
+# .gitignore — C · MATLAB · LaTeX · KiCad
+# ============================================================
 
-# Object files
+# ============================================================
+# C / C++
+# ============================================================
 *.o
-*.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
+*.hex
+*.bin
 *.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
+*.lst
+*.d
 *.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
+*.lib
 *.so
-*.so.*
-*.dylib
-
-# Executables
+*.dll
 *.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.i
+*.s
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Build directories
+build/
+out/
+Debug/
+Release/
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# IDE / toolchain artifacts
+*.su          # GCC stack usage
+*.cyclo
+*.deps
 
-# debug information files
-*.dwo
+# ============================================================
+# MATLAB
+# ============================================================
+*.asv         # auto-save
+*.m~
+*.mex*        # compiled MEX (mexw64, mexw32, mexa64 …)
+*.slxc        # Simulink code-gen cache
+*.autosave
+*.mdlp
+codegen/      # Simulink Coder / Embedded Coder output
+slprj/        # Simulink project build folder
+work/
+
+# ============================================================
+# LaTeX
+# ============================================================
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.vrb
+*.xdv
+
+# Output — rimuovi se vuoi tracciare il PDF finale
+*.pdf
+
+# ============================================================
+# KiCad
+# ============================================================
+# Backup & auto-save
+*.bak
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*-backups/
+_autosave-*
+
+# Fabrication outputs (aggiungili se non vuoi tracciarli)
+gerbers/
+fab/
+*.gbr
+*.drl
+*.gbl
+*.gtl
+*.gbs
+*.gts
+*.gbo
+*.gto
+*.gml
+*.dxf
+*.pos
+*.rpt
+*.csv
+
+# SPICE / simulation
+*.net
+*.cir
+*.raw
+
+# FP library cache (rigenerato automaticamente)
+fp-info-cache
+
+# ============================================================
+# Editor & OS junk
+# ============================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
