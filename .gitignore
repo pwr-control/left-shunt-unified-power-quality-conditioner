@@ -45,6 +45,7 @@ Release/
 codegen/      # Simulink Coder / Embedded Coder output
 slprj/        # Simulink project build folder
 work/
+*.mat
 
 # ============================================================
 # LaTeX
@@ -124,3 +125,9 @@ Desktop.ini
 *~
 .vscode/
 .idea/
+
+# ============================================================
+# graphics
+# ============================================================
+*.eps
+*.mp4
