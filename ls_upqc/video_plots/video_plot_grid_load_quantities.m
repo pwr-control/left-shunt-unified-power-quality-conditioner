@@ -8,8 +8,13 @@ font_size_title = 14;
 
 tc_eq = glb_time.tc*glb_time.decimation_tc;
 tc = tc_eq;
-t1 = 1;
+
+% t1 = 0.6;
+% t2 = 2;
+
+t1 = 1.0;
 t2 = 1.2;
+
 N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
@@ -34,9 +39,9 @@ time = time_tc_sim(N1:N2);
 
 %% Parametri
 sim_duration   = t2-t1;
-video_duration = 10.0;
+video_duration = 6.0;
 fps            = 30;
-output_file    = 'video_plot_grid_load_voltages.mp4';
+output_file    = 'video_plot_grid_load_2.mp4';
 
 %% Colori
 col_u  = [0.25  0.72  1.00];
@@ -75,10 +80,10 @@ hgrid_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',1.5);
 hgrid_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',1.5);
 hgrid_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',1.5);
 hc_grid_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_v,{'v_{g,u}','v_{g,v}','v_{g,w}'},'TextColor','w', ...
+legend(ax_v,{'v_{grid,u}','v_{grig,v}','v_{grid,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
 title(ax_v,'Grid Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
-ylabel(ax_v,'v_g  [V]','Color','w','FontSize',font_size_labels);
+ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
 ht_grid_v = make_text(ax_v,'w');
@@ -89,7 +94,7 @@ hgrid_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',1.5);
 hgrid_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',1.5);
 hgrid_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',1.5);
 hc_grid_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_i,{'i_{g,u}','i_{g,v}','i_{g,w}'},'TextColor','w', ...
+legend(ax_i,{'i_{grid,u}','i_{grid,v}','i_{grid,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
 title(ax_i,'Grid Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
@@ -107,7 +112,7 @@ hload_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',1.5);
 hload_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',1.5);
 hload_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',1.5);
 hc_load_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_v,{'v_{g,u}','v_{g,v}','v_{g,w}'},'TextColor','w', ...
+legend(ax_v,{'v_{load,u}','v_{load,v}','v_{load,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
 title(ax_v,'Load Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
@@ -121,7 +126,7 @@ hload_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',1.5);
 hload_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',1.5);
 hload_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',1.5);
 hc_load_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_i,{'u_{g,u}','u_{g,v}','i_{g,w}'},'TextColor','w', ...
+legend(ax_i,{'i_{load,u}','i_{load,v}','i_{load,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
 title(ax_i,'Load Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
