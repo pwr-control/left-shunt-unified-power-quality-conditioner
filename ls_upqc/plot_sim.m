@@ -282,4 +282,56 @@ set(h,'PaperPosition', [0 0 1 1]);
 print('saf_outputs','-depsc');
 movefile('saf_outputs.eps', 'figures');
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% figure 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+t1 = 0.6;
+t2 = 0.601;
+N1 = floor(t1/tc);
+N2 = floor(t2/tc);
+N = N2-N1;
+
+u1_dab = u1_dab_transformer_mod1_sim(N1:N2);
+u2_dab = u2_dab_transformer_mod1_sim(N1:N2);
+i1_dab = i1_dab_transformer_mod1_sim(N1:N2);
+
+time = time_tc_sim(N1:N2);
+
+figure(5);
+subplot 211
+plot(time,u1_dab,'-','LineWidth',tratto2,'Color',colore1);
+hold on
+plot(time,u2_dab,'-','LineWidth',tratto2,'Color',colore2);
+hold off
+title('DAB - AC Voltages','Interpreter','latex','FontSize',fontsize_title);
+legend('$u_{\mathrm{dab}}^{\mathrm{ac1}}$','$u_{\mathrm{dab}}^{\mathrm{ac2}}$',...
+    'Location','northeastoutside', 'Interpreter','latex','FontSize',fontsize_legend);
+% xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
+ylabel('Voltage - [V]','Interpreter','latex','FontSize', fontsize_axis);
+set(gca,'ylim',[-1500 1500]);
+set(gca,'xlim',[t1 t2]);
+grid on
+chH = get(gca,'Children');
+set(gca,'Children',[chH(1); chH(2);]);
+subplot 212
+plot(time,i1_dab,'-','LineWidth',tratto2,'Color',colore1);
+title('DAB AC Current','Interpreter','latex','FontSize',fontsize_title);
+legend('$i_{\mathrm{dab}}^{\mathrm{ac1}}$','Location','northeastoutside',...
+    'Interpreter','latex','FontSize',fontsize_legend);
+xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
+ylabel('Current - [A]','Interpreter','latex','FontSize', fontsize_axis);
+set(gca,'ylim',[-1200 1200]);
+set(gca,'xlim',[t1 t2]);
+grid on
+% chH = get(gca,'Children');
+% set(gca,'Children',[chH(1); chH(2); chH(3)]);
+grid on
+h=gcf;
+set(h,'PaperOrientation','landscape');
+set(h,'PaperUnits','normalized');
+set(h,'PaperPosition', [0 0 1 1]);
+print('dab_inner_quantities','-depsc');
+movefile('dab_inner_quantities.eps', 'figures');
+
 

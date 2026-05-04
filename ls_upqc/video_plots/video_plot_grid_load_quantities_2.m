@@ -1,6 +1,6 @@
 
 
-load ..\sim_results_1.mat;
+% load ..\sim_results_1.mat;
 
 font_size_legend = 14;
 font_size_labels = 16;
@@ -9,9 +9,6 @@ font_size_title = 14;
 tc_eq = glb_time.tc*glb_time.decimation_tc;
 tc = tc_eq;
 
-% t1 = 0.6;
-% t2 = 2;
-
 t1 = 1.0;
 t2 = 1.2;
 
@@ -19,21 +16,21 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-u_saf_u = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,1);
-u_saf_v = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,2);
-u_saf_w = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,3);
+ugrid_u = ug_abc_sim(N1:N2,1);
+ugrid_v = ug_abc_sim(N1:N2,2);
+ugrid_w = ug_abc_sim(N1:N2,3);
 
-i_saf_u = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,1);
-i_saf_v = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,2);
-i_saf_w = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,3);
+uload_u = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,1);
+uload_v = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,2);
+uload_w = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,3);
 
-u_vs_u = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,1);
-u_vs_v = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,2);
-u_vs_w = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,3);
+igrid_u = ig_abc_sim(N1:N2,1);
+igrid_v = ig_abc_sim(N1:N2,2);
+igrid_w = ig_abc_sim(N1:N2,3);
 
-i_vs_u = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,1);
-i_vs_v = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,2);
-i_vs_w = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,3);
+iload_u = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,1);
+iload_v = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,2);
+iload_w = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,3);
 
 time = time_tc_sim(N1:N2);
 
@@ -41,7 +38,7 @@ time = time_tc_sim(N1:N2);
 sim_duration   = t2-t1;
 video_duration = 6.0;
 fps            = 30;
-output_file    = 'video_plot_saf_vs_2.mp4';
+output_file    = 'video_plot_grid_load_2.mp4';
 
 %% Colori
 col_u  = [0.25  0.72  1.00];
@@ -54,8 +51,8 @@ col_Q1n = [0.30  0.85  0.85];
 
 %% Limiti assi (precalcolati)
 lim = @(x) deal(min(x)*1.15, max(x)*1.15);
-[yi_min, yi_max] = lim([i_saf_u; i_saf_v; i_saf_w]);
-[yv_min, yv_max] = lim([u_vs_u; u_vs_v; u_vs_w]);
+[yi_min, yi_max] = lim([igrid_u; igrid_v; igrid_w]);
+[yv_min, yv_max] = lim([uload_u; uload_v; uload_w]);
 
 fix = @(a,b) deal(a-(a==b), b+(a==b));
 [yi_min,   yi_max  ] = fix(yi_min,   yi_max  );
@@ -76,31 +73,31 @@ fig_L = figure('Color','k', 'Position',[50,  100, W, H], ...
 
 ax_v = subplot(2,1,1,'Parent',fig_L);
 setup_ax(ax_v);
-hsaf_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',1.5);
-hsaf_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',1.5);
-hsaf_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',1.5);
-hc_saf_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_v,{'v_{saf,u}','v_{saf,v}','v_{saf,w}'},'TextColor','w', ...
+hgrid_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',2);
+hgrid_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',2);
+hgrid_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',2);
+hc_grid_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
+legend(ax_v,{'v_{grid,u}','v_{grig,v}','v_{grid,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v,'SAF Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v,'Grid Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
-ht_saf_v = make_text(ax_v,'w');
+ht_grid_v = make_text(ax_v,'w');
 
 ax_i = subplot(2,1,2,'Parent',fig_L);
 setup_ax(ax_i);
-hsaf_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',1.5);
-hsaf_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',1.5);
-hsaf_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',1.5);
-hc_saf_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_i,{'i_{saf,u}','i_{saf,v}','i_{saf,w}'},'TextColor','w', ...
+hgrid_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',2);
+hgrid_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',2);
+hgrid_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',2);
+hc_grid_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
+legend(ax_i,{'i_{grid,u}','i_{grid,v}','i_{grid,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'SAF Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'Grid Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);
-ht_saf_i = make_text(ax_i,'w');
+ht_grid_i = make_text(ax_i,'w');
 
 %% ---- Figura DESTRA: P1p P1n Q1p Q1n (2x2) ----
 fig_R = figure('Color','k', 'Position',[50+W+10, 100, W, H], ...
@@ -108,31 +105,31 @@ fig_R = figure('Color','k', 'Position',[50+W+10, 100, W, H], ...
 
 ax_v = subplot(2,1,1,'Parent',fig_R);
 setup_ax(ax_v);
-hvs_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',1.5);
-hvs_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',1.5);
-hvs_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',1.5);
-hc_vs_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_v,{'v_{vs,u}','v_{vs,v}','v_{vs,w}'},'TextColor','w', ...
+hload_vu = plot(ax_v,NaN,NaN,'Color',col_u,'LineWidth',2);
+hload_vv = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',2);
+hload_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',2);
+hc_load_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
+legend(ax_v,{'v_{load,u}','v_{load,v}','v_{load,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v,'VS Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v,'Load Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
-ht_vs_v = make_text(ax_v,'w');
+ht_load_v = make_text(ax_v,'w');
 
 ax_i = subplot(2,1,2,'Parent',fig_R);
 setup_ax(ax_i);
-hvs_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',1.5);
-hvs_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',1.5);
-hvs_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',1.5);
-hc_vs_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_i,{'i_{vs,u}','i_{vs,v}','i_{vs,w}'},'TextColor','w', ...
+hload_iu = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',2);
+hload_iv = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',2);
+hload_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',2);
+hc_load_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
+legend(ax_i,{'i_{load,u}','i_{load,v}','i_{load,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'VS Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'Load Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);
-ht_vs_i = make_text(ax_i,'w');
+ht_load_i = make_text(ax_i,'w');
 
 %% ---- Render ----
 fprintf('Rendering %d frames...  ', n_frames);
@@ -144,26 +141,26 @@ for k = 1:n_frames
     t_str = sprintf('t = %.4f s', time(idx));
 
     % --- aggiorna figura sinistra ---
-    set(hsaf_vu,'XData',time(1:idx),'YData',u_saf_u(1:idx));
-    set(hsaf_vv,'XData',time(1:idx),'YData',u_saf_v(1:idx));
-    set(hsaf_vw,'XData',time(1:idx),'YData',u_saf_w(1:idx));
-    set(hc_saf_v, 'Value',time(idx)); set(ht_saf_v,'String',t_str);
+    set(hgrid_vu,'XData',time(1:idx),'YData',ugrid_u(1:idx));
+    set(hgrid_vv,'XData',time(1:idx),'YData',ugrid_v(1:idx));
+    set(hgrid_vw,'XData',time(1:idx),'YData',ugrid_w(1:idx));
+    set(hc_grid_v, 'Value',time(idx)); set(ht_grid_v,'String',t_str);
 
-    set(hsaf_iu,'XData',time(1:idx),'YData',i_saf_u(1:idx));
-    set(hsaf_iv,'XData',time(1:idx),'YData',i_saf_v(1:idx));
-    set(hsaf_iw,'XData',time(1:idx),'YData',i_saf_w(1:idx));
-    set(hc_saf_i, 'Value',time(idx)); set(ht_saf_i,'String',t_str);
+    set(hgrid_iu,'XData',time(1:idx),'YData',igrid_u(1:idx));
+    set(hgrid_iv,'XData',time(1:idx),'YData',igrid_v(1:idx));
+    set(hgrid_iw,'XData',time(1:idx),'YData',igrid_w(1:idx));
+    set(hc_grid_i, 'Value',time(idx)); set(ht_grid_i,'String',t_str);
 
     % --- aggiorna figura destra ---
-    set(hvs_vu,'XData',time(1:idx),'YData',u_vs_u(1:idx));
-    set(hvs_vv,'XData',time(1:idx),'YData',u_vs_v(1:idx));
-    set(hvs_vw,'XData',time(1:idx),'YData',u_vs_w(1:idx));
-    set(hc_vs_v, 'Value',time(idx)); set(ht_vs_v,'String',t_str);
+    set(hload_vu,'XData',time(1:idx),'YData',uload_u(1:idx));
+    set(hload_vv,'XData',time(1:idx),'YData',uload_v(1:idx));
+    set(hload_vw,'XData',time(1:idx),'YData',uload_w(1:idx));
+    set(hc_load_v, 'Value',time(idx)); set(ht_load_v,'String',t_str);
 
-    set(hvs_iu,'XData',time(1:idx),'YData',i_vs_u(1:idx));
-    set(hvs_iv,'XData',time(1:idx),'YData',i_vs_v(1:idx));
-    set(hvs_iw,'XData',time(1:idx),'YData',i_vs_w(1:idx));
-    set(hc_vs_i, 'Value',time(idx)); set(ht_vs_i,'String',t_str);
+    set(hload_iu,'XData',time(1:idx),'YData',iload_u(1:idx));
+    set(hload_iv,'XData',time(1:idx),'YData',iload_v(1:idx));
+    set(hload_iw,'XData',time(1:idx),'YData',iload_w(1:idx));
+    set(hc_load_i, 'Value',time(idx)); set(ht_load_i,'String',t_str);
 
     % --- cattura e affianca i due frame ---
     fr_L = getframe(fig_L);
