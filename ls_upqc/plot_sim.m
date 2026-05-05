@@ -286,8 +286,8 @@ movefile('saf_outputs.eps', 'figures');
 %% figure 5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-t1 = 0.6;
-t2 = 0.601;
+t1 = 2.22;
+t2 = 2.2202;
 N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
@@ -321,7 +321,7 @@ legend('$i_{\mathrm{dab}}^{\mathrm{ac1}}$','Location','northeastoutside',...
     'Interpreter','latex','FontSize',fontsize_legend);
 xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
 ylabel('Current - [A]','Interpreter','latex','FontSize', fontsize_axis);
-set(gca,'ylim',[-1200 1200]);
+set(gca,'ylim',[-500 500]);
 set(gca,'xlim',[t1 t2]);
 grid on
 % chH = get(gca,'Children');
@@ -333,5 +333,70 @@ set(h,'PaperUnits','normalized');
 set(h,'PaperPosition', [0 0 1 1]);
 print('dab_inner_quantities','-depsc');
 movefile('dab_inner_quantities.eps', 'figures');
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% figure 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+t1 = 2.22;
+t2 = 2.2202;
+N1 = floor(t1/tc);
+N2 = floor(t2/tc);
+N = N2-N1;
+
+uds_device = inverter_1_dab_devices_mod1_sim(N1:N2,2);
+ugs_device = inverter_1_dab_devices_mod1_sim(N1:N2,25);
+ids_device_Q1 = inverter_1_dab_devices_mod1_sim(N1:N2,3);
+ids_device_Q2 = inverter_1_dab_devices_mod1_sim(N1:N2,8);
+ploss_device = inverter_1_dab_devices_mod1_sim(N1:N2,1);
+
+time = time_tc_sim(N1:N2);
+
+figure(6);
+subplot 311
+plot(time,uds_device,'-','LineWidth',tratto2,'Color',colore1);
+title('DAB -  Q1-Uds Device Voltage','Interpreter','latex','FontSize',fontsize_title);
+legend('$u_{\mathrm{ds}}^{\mathrm{Q1}}$', 'Location','northeastoutside', ...
+    'Interpreter','latex','FontSize',fontsize_legend);
+% xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
+ylabel('Voltage -[V]','Interpreter','latex','FontSize', fontsize_axis);
+set(gca,'ylim',[-50 1500]);
+set(gca,'xlim',[t1 t2]);
+grid on
+subplot 312
+plot(time,ugs_device,'-','LineWidth',tratto2,'Color',colore1);
+title('DAB - Q1-Ugs Device Voltage','Interpreter','latex','FontSize',fontsize_title);
+legend('$u_{\mathrm{gs}}^{\mathrm{Q1}}$', 'Location','northeastoutside', ...
+    'Interpreter','latex','FontSize',fontsize_legend);
+% xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
+ylabel('Voltage - [V]','Interpreter','latex','FontSize', fontsize_axis);
+set(gca,'ylim',[-10 25]);
+set(gca,'xlim',[t1 t2]);
+grid on
+% chH = get(gca,'Children');
+% set(gca,'Children',[chH(1); chH(2);]);
+subplot 313
+plot(time,ids_device_Q1,'-','LineWidth',tratto2,'Color',colore1);
+hold on
+plot(time,ids_device_Q2,'-','LineWidth',tratto2,'Color',colore2);
+hold off
+title('DAB - Q1-Ids Device Current','Interpreter','latex','FontSize',fontsize_title);
+legend('$i_{\mathrm{ds}}^{\mathrm{Q1}}$','$i_{\mathrm{ds}}^{\mathrm{Q2}}$','Location','northeastoutside',...
+    'Interpreter','latex','FontSize',fontsize_legend);
+xlabel('Time - [s]','Interpreter','latex','FontSize', fontsize_axis);
+ylabel('Current - [A]','Interpreter','latex','FontSize', fontsize_axis);
+set(gca,'ylim',[-500 500]);
+set(gca,'xlim',[t1 t2]);
+grid on
+% chH = get(gca,'Children');
+% set(gca,'Children',[chH(1); chH(2); chH(3)]);
+grid on
+h=gcf;
+set(h,'PaperOrientation','landscape');
+set(h,'PaperUnits','normalized');
+set(h,'PaperPosition', [0 0 1 1]);
+print('dab_devices_quantities','-depsc');
+movefile('dab_devices_quantities.eps', 'figures');
 
 
