@@ -1,6 +1,6 @@
 
 
-% load ..\sim_results_1.mat;
+load ..\sim_results_2.mat;
 
 font_size_legend = 14;
 font_size_labels = 16;

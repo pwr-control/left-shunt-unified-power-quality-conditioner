@@ -1,6 +1,6 @@
 clc
 
-load ..\sim_results_1.mat;
+load ..\sim_results_2.mat;
 
 font_size_legend = 14;
 font_size_labels = 16;
@@ -108,10 +108,10 @@ fig_R = figure('Color','k', 'Position',[50+W+10, 100, W, H], ...
 %           'P_{1}^{-}', col_P1n, [yP1n_min, yP1n_max], 'P_{1}^{-}  [W]'  ;
 %           'Q_{1}^{+}', col_Q1p, [yQ1p_min, yQ1p_max], 'Q_{1}^{+}  [VAr]';
 %           'Q_{1}^{-}', col_Q1n, [yQ1n_min, yQ1n_max], 'Q_{1}^{-}  [VAr]'};
-specs = { 'P_{1p}', col_P1p, [yP1p_min, yP1p_max], 'P_{1p}  [W]'  ;
-            'P_{1n}', col_P1n, [yP1n_min, yP1n_max], 'P_{1n}  [W]'  ;
-            'Q_{1p}', col_Q1p, [yQ1p_min, yQ1p_max], 'Q_{1p}  [VAr]';
-            'Q_{1n}', col_Q1n, [yQ1n_min, yQ1n_max], 'Q_{1n}  [VAr]'};
+specs = { 'P_{1p} - Line', col_P1p, [yP1p_min, yP1p_max], 'P_{1p}  [W]'  ;
+            'P_{1n} - Line', col_P1n, [yP1n_min, yP1n_max], 'P_{1n}  [W]'  ;
+            'Q_{1p} - Line', col_Q1p, [yQ1p_min, yQ1p_max], 'Q_{1p}  [VAr]';
+            'Q_{1n} - Line', col_Q1n, [yQ1n_min, yQ1n_max], 'Q_{1n}  [VAr]'};
 sigs_R = {P1p, P1n, Q1p, Q1n};
 pos    = [1 2 3 4];   % posizione nel layout 2x2
 

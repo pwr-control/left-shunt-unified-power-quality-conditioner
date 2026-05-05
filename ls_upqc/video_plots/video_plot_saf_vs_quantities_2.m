@@ -1,6 +1,6 @@
 
 
-% load ..\sim_results_1.mat;
+load ..\sim_results_2.mat;
 
 font_size_legend = 14;
 font_size_labels = 16;
@@ -82,7 +82,7 @@ hsaf_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',2);
 hc_saf_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_v,{'v_{saf,u}','v_{saf,v}','v_{saf,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v,'SAF Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v,'SAF Voltages during Voltage Sag','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
@@ -96,7 +96,7 @@ hsaf_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',2);
 hc_saf_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_i,{'i_{saf,u}','i_{saf,v}','i_{saf,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'SAF Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'SAF Currents during Voltage Sag','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);
@@ -114,7 +114,7 @@ hvs_vw = plot(ax_v,NaN,NaN,'Color',col_w,'LineWidth',2);
 hc_vs_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_v,{'v_{vs,u}','v_{vs,v}','v_{vs,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v,'VS Voltages','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v,'VS Voltages during Voltage Sag','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
@@ -128,7 +128,7 @@ hvs_iw = plot(ax_i,NaN,NaN,'Color',col_w,'LineWidth',2);
 hc_vs_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_i,{'i_{vs,u}','i_{vs,v}','i_{vs,w}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'VS Currents','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'VS Currents during Voltage Sag','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);

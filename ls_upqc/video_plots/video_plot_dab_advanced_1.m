@@ -73,7 +73,7 @@ hl_u2_dab = plot(ax_v,NaN,NaN,'Color',col_v,'LineWidth',3);
 hlc_v  = xline(ax_v,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_v,{'u_{dab,ac1}','u_{dab,ac2}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v,'DAB AC Voltages - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v,'DAB AC Voltages - During Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v,[t1,t2]); ylim(ax_v,[yv_min,yv_max]);
 set(ax_v,'XTickLabel',{});
@@ -85,7 +85,7 @@ hl_i1_dab = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',3);
 hlc_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_i,{'i_{dab,ac}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'DAB AC Current - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'DAB AC Current - During Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);
@@ -101,7 +101,7 @@ hr_uds_dab = plot(ax_v1,NaN,NaN,'Color',col_u,'LineWidth',3);
 hrc_v1  = xline(ax_v1,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_v1,{'u_{Q1,ds}'},'TextColor','w', ...
     'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v1,'DAB Q1-Uds Voltage - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v1,'DAB Q1 - Uds Voltage - During Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v1,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v1,[t1,t2]); ylim(ax_v1,[-100,1500]);
 set(ax_v1,'XTickLabel',{});
@@ -113,7 +113,7 @@ hr_ugs_dab = plot(ax_v2,NaN,NaN,'Color',col_u,'LineWidth',3);
 hrc_v2  = xline(ax_v2,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_v2,{'u_{Q1,gs}'},'TextColor','w', ...
     'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_v2,'DAB Q1-Ugs Voltage - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_v2,'DAB Q1 - Ugs Voltage - During Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_v2,'Voltage  [V]','Color','w','FontSize',font_size_labels);
 xlim(ax_v2,[t1,t2]); ylim(ax_v2,[-10, 25]);
 set(ax_v2,'XTickLabel',{});
@@ -126,7 +126,7 @@ hr_ids_dab_Q2 = plot(ax_i,NaN,NaN,'Color',col_v,'LineWidth',3);
 hrc_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
 legend(ax_i,{'i_{Q1,ds}','i_{Q2,ds}'},'TextColor','w', ...
     'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
-title(ax_i,'DAB Q1-2-Ids Current - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
+title(ax_i,'DAB Q1, Q2 - Ids Current - During Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
 xlabel(ax_i,'Time  [s]','Color','w','FontSize',font_size_labels);
 xlim(ax_i,[t1,t2]); ylim(ax_i,[yi_min,yi_max]);
