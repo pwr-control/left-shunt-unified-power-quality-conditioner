@@ -13,7 +13,7 @@ fontsize_title = 14;
 fontsize_legend = 16;
 fontsize_axis = 12;
 
-load sim_results_1.mat;
+load sim_results_2.mat;
 tc_eq = glb_time.tc*glb_time.decimation_tc;
 tc = tc_eq;
 

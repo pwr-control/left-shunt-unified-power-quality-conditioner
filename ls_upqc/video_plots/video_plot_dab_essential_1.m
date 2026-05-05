@@ -1,6 +1,6 @@
 clc
 
-% load ..\sim_results_1.mat;
+load ..\sim_results_1.mat;
 
 font_size_legend = 14;
 font_size_labels = 16;
@@ -76,7 +76,7 @@ ax_i = subplot(2,1,2,'Parent',fig);
 setup_ax(ax_i);
 hl_i1_dab = plot(ax_i,NaN,NaN,'Color',col_u,'LineWidth',3);
 hc_i  = xline(ax_i,0,'r--','LineWidth',0.8,'Alpha',0.7);
-legend(ax_i,{'i_{bat,dc}'},'TextColor','w', ...
+legend(ax_i,{'i_{dab,ac}'},'TextColor','w', ...
        'Color','none','EdgeColor',[0.4 0.4 0.4],'Location','northeast','FontSize',font_size_legend);
 title(ax_i,'DAB AC Current - Battery Charging','Color','w','FontSize',font_size_title,'FontWeight','normal');
 ylabel(ax_i,'Current  [A]','Color','w','FontSize',font_size_labels);
