@@ -108,7 +108,7 @@ param.saf.ctrl.res_pi.kp_rpi = 0.25;        % resonant PI of the current control
 param.saf.ctrl.res_pi.ki_rpi = 35;
 param.saf.uvw = prv.uvw_param(param.saf.ctrl, param.grid.fgrid, 2, 0.025, param.frt.data.k_frt_ref);
 %[text] ### References
-%[text] With the storage the SAF draws the constant active current ixi\_ref (pu of ibez, negative: from the grid to the DC link). Reactive current steps of the positive sequence after the fault: to 0.95 inductive at time\_i\_react\_pos\_ref\_1, to 0.95 capacitive 0.5 s later (amplitude of the reactive current that gives cos(phi) 0.95 with ixi\_ref).
+%[text] With the storage the SAF draws the constant active current ixi\_ref (pu of ibez, negative: from the grid to the DC link). Reactive current steps of the positive sequence after the fault, of the amplitude that gives cos(phi) 0.95 with ixi\_ref: to i\_react\_pos\_ref\_2 at time\_i\_react\_pos\_ref\_1 (in the default case the SAF then supplies about 74 kvar to the grid), to the opposite value 0.5 s later.
 param.saf.ref.ixi_ref = -0.85;              % [pu] active current with the storage
 param.saf.ref.u_cm_comp = 0;                % common mode compensation of the modulator (block space_vector)
 param.saf.ref.enable_i_react_pos_steps = 1;

@@ -60,14 +60,14 @@ fed through the series transformer and the VS keeps its voltage. At 0.75 s the g
 test 25.4 (two-phase dip of 75 %, k = 2): for 0.915 s the positive sequence of the grid voltage falls to
 0.40 pu and a negative sequence of 0.57 pu appears. During the power limitation of the FRT the SAF draws no
 active current and the DAB supplies from the battery the power that the VS takes to hold the load voltage. At
-2.0 s the reference of the reactive current of the SAF steps to 0.28 pu (inductive).
+2.0 s the reference of the reactive current of the SAF steps to 0.28 pu (the SAF supplies about 74 kvar).
 
 Results with the logging step of 25 us, averages over the second half of the fault (1.2 s to 1.6 s):
 
 | | with the storage | without the storage |
 |---|---|---|
 | load voltage: positive sequence, negative sequence, THD | 1.00 pu, 2.8 V, 1.3 % | 1.00 pu, 3.7 V, 4.5 % |
-| DC link: mean (lowest to highest) | 1200 V (1176 V to 1225 V) | 686 V (580 V to 799 V) |
+| DC link: mean (lowest to highest) | 1200 V (1176 V to 1228 V) | 686 V (580 V to 799 V) |
 | grid active power; battery power | 176 kW; 276 kW (discharge) | 430 kW |
 | after the fault (cleared at 1.665 s) | DC link up to 1323 V, within 1 % of 1200 V from 1.74 s | DC link between 0.23 kV and 1.89 kV, not settled at 2.25 s |
 
