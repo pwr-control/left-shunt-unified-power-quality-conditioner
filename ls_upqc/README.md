@@ -73,9 +73,9 @@ Results with the logging step of 25 us, averages over the second half of the fau
 
 Without the storage the SAF cannot bring from the faulted grid the power that the VS needs (at 0.40 pu and
 1.65 pu of active current it draws at most 183 kW, the VS needs about 260 kW): the DC link falls below the
-peak line voltage and the SAF loses the control of its current. The design note in
-[repositories-documentation](https://github.com/pwr-control/repositories-documentation)
-(`repos_doc/unified_power_quality_conditioner`) has the figures and the analysis.
+peak line voltage and the SAF loses the control of its current. The design note
+[`repos_doc/unified_power_quality_conditioner`](https://github.com/pwr-control/repositories-documentation/tree/main/repos_doc/unified_power_quality_conditioner)
+of repositories-documentation (`upqc.pdf`) has the figures and the analysis.
 
 ## Parameters
 
