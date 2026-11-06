@@ -179,19 +179,20 @@ param.vs.behav.pwm_phase_shift = 0;
 %[text] ## Storage: dual active bridge and battery
 %[text] Computed in every case (the blocks are commented out without the storage, see Model setup).
 %[text] ### Dual active bridge
-%[text] Single-phase DAB of the 1200 V class (library data set DAB\_1200V: 1200 V on both sides, transformer 1:1, Lm 1 mH, DC links 3.6 mF), 250 kW at 12 kHz, series tank resonance at fPWM\_DAB/5. Side 2 is the DC link of SAF and VS, side 1 the battery. Voltage PI on the DC link and current PI (pu).
+%[text] Single-phase DAB of the 1200 V class (library data set DAB\_1200V: 1200 V on both sides, transformer 1:1, Lm 1 mH, DC links 3.6 mF), 250 kW at 12 kHz. The series inductance is the leakage inductance of the transformer, Ld1 + Ld2 = Ls (38.2 uH); the data set also computes a series capacitor Cs for a resonance at fPWM\_DAB/5 (param.dab.fres), which the model does not have. Side 2 is the DC link of SAF and VS, side 1 the battery. The DC-link voltage PI (block dab\_ctrl/u\_out\_ctrl, on the voltage in pu of udc2\_nom) gives the phase shift between the two bridges directly, in units of the max\_phase\_displacement of the modulator (pi/2): its output limit param.dab.ctrl.phase\_lim = 1 keeps the phase shift within pi/2, the top of the power curve (beyond it the power falls while the phase shift grows, and the loop gain changes sign). The current PI (block i\_out\_ctrl) is commented out, as in main: kp\_idc and ki\_idc are not used. Near zero phase shift one unit of the PI output is worth about 790 kW at 1200 V on both sides, and the DC link (18 mF) integrates the difference of the powers: the voltage loop crosses over at about 31 rad/s times kp\_udc. The gains of main (kp 1, ki 35) were too slow for the default FRT test, in which the DAB goes from charging the battery at 200 kW to supplying the VS within a few milliseconds (the DC link fell to 650 V); kp 6 and ki 240 (crossover about 190 rad/s, zero at 40 rad/s) hold it within 2 %.
 param.dab.application_voltage = 690;        % [V] selects DAB_1200V
 param.dab.pwr_nom = 250e3;                  % [W]
 param.dab.fres = param.glb_time.fPWM_DAB/5; % [Hz]
 param.dab.hw = prv.dab_hw_param(param.dab.application_voltage, param.dab.pwr_nom, param.glb_time.fPWM_DAB, ...
     param.dab.fres);
-param.dab.ctrl.kp_udc = 1;                  % DC-link voltage PI
-param.dab.ctrl.ki_udc = 35;                 % [1/s]
-param.dab.ctrl.kp_idc = 0.5;                % current PI
+param.dab.ctrl.kp_udc = 6;                  % DC-link voltage PI (main: 1)
+param.dab.ctrl.ki_udc = 240;                % [1/s] (main: 35)
+param.dab.ctrl.phase_lim = 1;               % output limit of the voltage PI [pi/2]
+param.dab.ctrl.kp_idc = 0.5;                % current PI (block commented out)
 param.dab.ctrl.ki_idc = 18;                 % [1/s]
 param.dab.behav.time_gain = 1;              % block global_timing/time_dab
 %[text] ### Battery
-%[text] Lithium-ion pack on side 1 of the DAB (block battery/lithium\_ion\_battery): 1200 V nominal (udc1\_bez of the DAB), 250 kW, initial state of charge 0.85. Charge capacity 50 Ah, the value of the library function that the legacy init called (lithium\_ion\_battery\_setup, before it took the capacity as an input). As in the legacy init, R0 and R1 are halved and C1 is divided by 50. The library block reads battery\_voltage\_init\_m = param.battery.nominal\_battery\_voltage\_1 from its mask default.
+%[text] Lithium-ion pack on side 1 of the DAB (block battery/lithium\_ion\_battery): 1200 V nominal (udc1\_bez of the DAB), 250 kW, initial state of charge 0.85. Charge capacity 50 Ah, the value of the library function that the legacy init called (lithium\_ion\_battery\_setup, before it took the capacity as an input). As in the legacy init, R0 and R1 are halved and C1 is divided by 50. The model starts from these initial conditions (Solver Configuration: no start from steady state, which would bring the battery to SOC 0 through the off-state leakage of the bridges): the internal capacitor of the battery block (battery\_voltage\_init\_m) and the DC capacitor of DAB side 1 (dab/dcdc\_with\_galvanic\_isolation/CFi\_dc1) start at the open-circuit voltage of the pack at the initial state of charge, param.battery.voltage\_init\_1 (formula of lithium\_ion\_cell.ssc, about 1248 V at SOC 0.85).
 param.battery.nominal_battery_voltage_1 = param.dab.hw.udc1_bez;    % [V]
 param.battery.nominal_battery_power = 250e3;                        % [W]
 param.battery.initial_battery_soc = 0.85;
@@ -203,7 +204,11 @@ param.battery.pack_1 = prv.battery_param(b.nominal_battery_voltage_1, b.nominal_
 param.battery.pack_1.R0 = param.battery.pack_1.R0/2;                % legacy changes
 param.battery.pack_1.R1 = param.battery.pack_1.R1/2;
 param.battery.pack_1.C1 = param.battery.pack_1.C1/50;
-clear b
+p = param.battery.pack_1;
+z = param.battery.initial_battery_soc;
+param.battery.voltage_init_1 = p.number_of_cells*(p.E_1*exp(-z*p.alpha) + p.E0 + p.E1*z + p.E2*z^2 + ...
+    p.E3*z^3 + p.Elog*log(abs(1 - z + 1e-2)));                     % [V] open-circuit voltage at soc_init
+clear b p z
 %%
 %[text] ## Load
 %[text] Three-phase RL load (library block three\_phase\_rl\_load, block rl\_load), the same values on the three phases.
