@@ -12,8 +12,8 @@ font_size_legend = 12;
 font_size_labels = 12;
 font_size_title = 12;
 
-tc_eq = glb_time.tc*glb_time.decimation_tc;
-tc = tc_eq;
+results_compat;                         % names of init_model.m; P/Q from iec_power_meter when not logged
+tc = param.glb_time.tc*param.glb_time.decimation_tc;
 t1 = 1.95;
 t2 = 3.00;
 N1 = floor(t1/tc);
@@ -33,7 +33,7 @@ Q1p = Q1p_global_sim(N1:N2);
 P1n = P1n_global_sim(N1:N2);
 Q1n = Q1n_global_sim(N1:N2);
 
-time = t_tc_sim(N1:N2);
+time = time_tc_sim(N1:N2);
 
 %% Parametri
 sim_duration   = t2-t1;

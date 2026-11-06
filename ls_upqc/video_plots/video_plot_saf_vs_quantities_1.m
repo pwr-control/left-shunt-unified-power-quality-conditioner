@@ -1,12 +1,13 @@
 
 
 load ..\sim_results_2.mat;
+run(fullfile('..', 'results_compat.m'));     % names of init_model.m (see results_compat)
 
 font_size_legend = 14;
 font_size_labels = 16;
 font_size_title = 14;
 
-tc_eq = glb_time.tc*glb_time.decimation_tc;
+tc_eq = param.glb_time.tc*param.glb_time.decimation_tc;
 tc = tc_eq;
 
 t1 = 0.6;
@@ -19,21 +20,21 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-u_saf_u = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,1);
-u_saf_v = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,2);
-u_saf_w = hwdata.afe.ubez * ug_abc_pu_saf_sim(N1:N2,3);
+u_saf_u = param.saf.hw.ubez * ug_abc_pu_saf_sim(N1:N2,1);
+u_saf_v = param.saf.hw.ubez * ug_abc_pu_saf_sim(N1:N2,2);
+u_saf_w = param.saf.hw.ubez * ug_abc_pu_saf_sim(N1:N2,3);
 
-i_saf_u = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,1);
-i_saf_v = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,2);
-i_saf_w = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,3);
+i_saf_u = param.saf.hw.ibez * ig_abc_pu_saf_sim(N1:N2,1);
+i_saf_v = param.saf.hw.ibez * ig_abc_pu_saf_sim(N1:N2,2);
+i_saf_w = param.saf.hw.ibez * ig_abc_pu_saf_sim(N1:N2,3);
 
-u_vs_u = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,1);
-u_vs_v = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,2);
-u_vs_w = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,3);
+u_vs_u = param.vs.hw.ubez * ug_abc_pu_vs_sim(N1:N2,1);
+u_vs_v = param.vs.hw.ubez * ug_abc_pu_vs_sim(N1:N2,2);
+u_vs_w = param.vs.hw.ubez * ug_abc_pu_vs_sim(N1:N2,3);
 
-i_vs_u = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,1);
-i_vs_v = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,2);
-i_vs_w = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,3);
+i_vs_u = param.vs.hw.ibez * ig_abc_pu_vs_sim(N1:N2,1);
+i_vs_v = param.vs.hw.ibez * ig_abc_pu_vs_sim(N1:N2,2);
+i_vs_w = param.vs.hw.ibez * ig_abc_pu_vs_sim(N1:N2,3);
 
 time = time_tc_sim(N1:N2);
 

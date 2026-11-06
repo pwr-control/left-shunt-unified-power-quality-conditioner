@@ -1,3 +1,10 @@
+%PLOT_SPECTRUM  Spectrum of the grid phase voltage (phase a, the 10 grid periods before the first third of the
+%   logging window: before the fault of the default test) of a simulation of ls_upqc.slx. Run it after the
+%   simulation, or it loads sim_results_2.mat (save sim_results_2 after the simulation).
+if ~exist('ug_abc_sim', 'var')
+    load sim_results_2.mat;
+end
+results_compat;                         % names of init_model.m also for the results of the branch main
 close all
 clc
 
@@ -7,14 +14,15 @@ tratto3 = 1;
 colore1 = [0.5 0.5 0.5];
 colore2 = [0.8 0.8 0.8];
 
+tc = param.glb_time.tc*param.glb_time.decimation_tc;
+f_grid = param.grid.fgrid;
 Nperiod = 10;
-N2 = Nc/3;
+N2 = floor(numel(time_tc_sim)/3);
 N1 = N2 - floor(Nperiod/f_grid/tc);
-sig_fft=vg_abc_sim(N1:N2,1);
-time = t_tc_sim(N1:N2);
+sig_fft=ug_abc_sim(N1:N2,1);
+time = time_tc_sim(N1:N2);
 
-igrid_base = 250e3/400/sqrt(3/2);
-ugrid_base = 400/sqrt(3/2);
+ugrid_base = param.grid.us2*sqrt(2/3);  % [V] peak phase voltage
 
 % figure; 
 % plot(time,sig_fft,'-k','LineWidth',tratto1);

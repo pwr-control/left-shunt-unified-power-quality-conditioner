@@ -1,3 +1,7 @@
+%PLOT_SIM  Figures of a simulation of ls_upqc.slx (eps files in ./figures).
+%   Run the init and the simulation (2.25 s), save the workspace (save sim_results_2) and run this script. The
+%   results of the legacy init of the branch main also work (see results_compat). Without the storage
+%   (param.sim.storage = 0) the battery and DAB figures are skipped.
 clear;
 close all;
 clc;
@@ -14,8 +18,17 @@ fontsize_legend = 16;
 fontsize_axis = 12;
 
 load sim_results_2.mat;
-tc_eq = glb_time.tc*glb_time.decimation_tc;
-tc = tc_eq;
+results_compat;                         % names of init_model.m also for the results of the branch main
+tc = param.glb_time.tc*param.glb_time.decimation_tc;
+ubez_saf = param.saf.hw.ubez;
+ibez_saf = param.saf.hw.ibez;
+udc_nom_saf = param.saf.hw.udc_nom;
+ubez_vs = param.vs.hw.ubez;
+ibez_vs = param.vs.hw.ibez;
+has_storage = exist('voltage_battery_sim', 'var') && exist('u1_dab_transformer_sim', 'var');
+if ~exist('figures', 'dir')
+    mkdir('figures');
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% figure 1
@@ -30,9 +43,9 @@ ugrid_u = ug_abc_sim(N1:N2,1);
 ugrid_v = ug_abc_sim(N1:N2,2);
 ugrid_w = ug_abc_sim(N1:N2,3);
 
-uload_u = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,1);
-uload_v = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,2);
-uload_w = hwdata.afe.ubez * uload_abc_pu_sim(N1:N2,3);
+uload_u = ubez_vs * uload_abc_pu_sim(N1:N2,1);
+uload_v = ubez_vs * uload_abc_pu_sim(N1:N2,2);
+uload_w = ubez_vs * uload_abc_pu_sim(N1:N2,3);
 
 time = time_tc_sim(N1:N2);
 
@@ -95,9 +108,9 @@ igrid_u = ig_abc_sim(N1:N2,1);
 igrid_v = ig_abc_sim(N1:N2,2);
 igrid_w = ig_abc_sim(N1:N2,3);
 
-iload_u = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,1);
-iload_v = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,2);
-iload_w = hwdata.afe.ibez * iload_abc_pu_sim(N1:N2,3);
+iload_u = ibez_vs * iload_abc_pu_sim(N1:N2,1);
+iload_v = ibez_vs * iload_abc_pu_sim(N1:N2,2);
+iload_w = ibez_vs * iload_abc_pu_sim(N1:N2,3);
 
 time = time_tc_sim(N1:N2);
 
@@ -156,13 +169,13 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-u_vs_u = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,1);
-u_vs_v = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,2);
-u_vs_w = hwdata.afe.ubez * ug_abc_pu_vs_sim(N1:N2,3);
+u_vs_u = ubez_vs * ug_abc_pu_vs_sim(N1:N2,1);
+u_vs_v = ubez_vs * ug_abc_pu_vs_sim(N1:N2,2);
+u_vs_w = ubez_vs * ug_abc_pu_vs_sim(N1:N2,3);
 
-i_vs_u = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,1);
-i_vs_v = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,2);
-i_vs_w = hwdata.afe.ibez * ig_abc_pu_vs_sim(N1:N2,3);
+i_vs_u = ibez_vs * ig_abc_pu_vs_sim(N1:N2,1);
+i_vs_v = ibez_vs * ig_abc_pu_vs_sim(N1:N2,2);
+i_vs_w = ibez_vs * ig_abc_pu_vs_sim(N1:N2,3);
 
 time = time_tc_sim(N1:N2);
 
@@ -221,12 +234,14 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-ig_saf_u = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,1);
-ig_saf_v = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,2);
-ig_saf_w = hwdata.afe.ibez * ig_abc_pu_saf_sim(N1:N2,3);
-vdc_saf = hwdata.afe.udc_nom * vdc_pu_saf_sim(N1:N2);
-udc_battery = voltage_battery_sim(N1:N2);
-idc_battery = current_battery_sim(N1:N2);
+ig_saf_u = ibez_saf * ig_abc_pu_saf_sim(N1:N2,1);
+ig_saf_v = ibez_saf * ig_abc_pu_saf_sim(N1:N2,2);
+ig_saf_w = ibez_saf * ig_abc_pu_saf_sim(N1:N2,3);
+vdc_saf = udc_nom_saf * vdc_pu_saf_sim(N1:N2);
+if has_storage
+    udc_battery = voltage_battery_sim(N1:N2);
+    idc_battery = current_battery_sim(N1:N2);
+end
 
 time = time_tc_sim(N1:N2);
 
@@ -262,6 +277,7 @@ grid on
 % chH = get(gca,'Children');
 % set(gca,'Children',[chH(1); chH(2); chH(3)]);
 grid on
+if has_storage
 subplot 313
 plot(time,idc_battery,'-','LineWidth',tratto2,'Color',colore1);
 title('Battery - Current','Interpreter','latex','FontSize',fontsize_title);
@@ -275,6 +291,7 @@ grid on
 % chH = get(gca,'Children');
 % set(gca,'Children',[chH(1); chH(2); chH(3)]);
 grid on
+end
 h=gcf;
 set(h,'PaperOrientation','landscape');
 set(h,'PaperUnits','normalized');
@@ -285,6 +302,7 @@ movefile('saf_outputs.eps', 'figures');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% figure 5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if has_storage
 
 t1 = 2.22;
 t2 = 2.2202;
@@ -292,9 +310,9 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-u1_dab = u1_dab_transformer_mod1_sim(N1:N2);
-u2_dab = u2_dab_transformer_mod1_sim(N1:N2);
-i1_dab = i1_dab_transformer_mod1_sim(N1:N2);
+u1_dab = u1_dab_transformer_sim(N1:N2);
+u2_dab = u2_dab_transformer_sim(N1:N2);
+i1_dab = i1_dab_transformer_sim(N1:N2);
 
 time = time_tc_sim(N1:N2);
 
@@ -333,11 +351,14 @@ set(h,'PaperUnits','normalized');
 set(h,'PaperPosition', [0 0 1 1]);
 print('dab_inner_quantities','-depsc');
 movefile('dab_inner_quantities.eps', 'figures');
+end
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% figure 6
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% device quantities of the DAB: logged only by the thermal models of the legacy model (branch main)
+if exist('inverter_1_dab_devices_mod1_sim', 'var')
 
 t1 = 2.22;
 t2 = 2.2202;
@@ -398,5 +419,4 @@ set(h,'PaperUnits','normalized');
 set(h,'PaperPosition', [0 0 1 1]);
 print('dab_devices_quantities','-depsc');
 movefile('dab_devices_quantities.eps', 'figures');
-
-
+end

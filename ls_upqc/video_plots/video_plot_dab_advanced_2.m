@@ -3,12 +3,16 @@ clear
 close all
 
 load ..\sim_results_2.mat;
+run(fullfile('..', 'results_compat.m'));     % names of init_model.m (see results_compat)
+if ~exist('inverter_1_dab_devices_mod1_sim', 'var')
+    error('device quantities of the DAB: logged only by the thermal models of the legacy model (branch main)');
+end
 
 font_size_legend = 14;
 font_size_labels = 16;
 font_size_title = 14;
 
-tc_eq = glb_time.tc*glb_time.decimation_tc;
+tc_eq = param.glb_time.tc*param.glb_time.decimation_tc;
 tc = tc_eq;
 
 t1 = 1.4;
@@ -18,9 +22,9 @@ N1 = floor(t1/tc);
 N2 = floor(t2/tc);
 N = N2-N1;
 
-u1_dab = u1_dab_transformer_mod1_sim(N1:N2);
-u2_dab = u2_dab_transformer_mod1_sim(N1:N2);
-i1_dab = i1_dab_transformer_mod1_sim(N1:N2);
+u1_dab = u1_dab_transformer_sim(N1:N2);
+u2_dab = u2_dab_transformer_sim(N1:N2);
+i1_dab = i1_dab_transformer_sim(N1:N2);
 
 uds_device = inverter_1_dab_devices_mod1_sim(N1:N2,2);
 ugs_device = inverter_1_dab_devices_mod1_sim(N1:N2,25);
